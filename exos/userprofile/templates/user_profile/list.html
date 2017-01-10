@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load staticfiles bootstrap3 i18n profiletags %}
+
+{% block content %}
+{% bootstrap_messages %}
+<div class="rows">
+    <div class="cols-xs-1">
+        <a href="{% url 'add' %}" class="pull-right">{% trans 'Add User' %}</a>
+    </div>
+</div>
+<div class="rows">
+    <div class="cols-xs-1">
+        <table class="table table-striped">
+        <tr>
+            <th>{% trans 'Username'  %}</th>
+            <th>{% trans 'Birthday'  %}</th>
+            <th>{% trans 'Eligible'  %}</th>
+            <th>{% trans 'Random Number'  %}</th>
+            <th>{% trans 'BizzFuzz'  %}</th>
+            <th> </th>
+        </tr>
+        {% for profile in profile_list %}
+        <tr>
+            <td>{{ profile.user.username }}</td>
+            <td>{{ profile.birthday|date:'m/d/Y' }}</td>
+            <td>{% check_age profile %}</td>
+            <td class="yesss">{{ profile.random_number }}</td>
+            <td>{% bizzfuzz profile %}</td>
+            <td>
+                <a href="{% url 'update' profile.id %}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="{% url 'delete' profile.id %}" class="delete_profile"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+            </td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script language="JavaScript">
+
+$( document ).ready(function() {
+    $('.delete_profile').popover({
+        placement: 'left',
+        content: function(){
+            var post_url = $(this).attr('href');
+            return "{% trans 'Are you sure to delete?'%} <form method='POST' action='" + post_url + "'><button tyoe='submit' class='btn btn-primary'>{% trans 'Yes' %}</button>{% csrf_token %}</form>";
+        },
+        html: true,
+    });
+    $('.delete_profile').click(function(e){
+        e.preventDefault();
+        $('.delete_profile').not(this).popover('hide');
+    });
+})
+</script>
+{% endblock extra_js %}

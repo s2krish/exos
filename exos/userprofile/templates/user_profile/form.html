@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load staticfiles bootstrap3 i18n %}
+
+{% block content %}
+<div class="rows">
+    <div class="cols-xs-1">
+        <h1>{% if object %}{% trans 'Update User' %} {% else %} {% trans 'Add User' %}{% endif %}</h1>
+        <form method="POST" novalidate>
+        <div class="form-group">
+            <label class="control-label" for="id_username">{% trans 'User:' %}</label>
+            {{ object.user.username }}
+        </div>
+        {% bootstrap_form form show_lable=False %}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">{% trans 'Save User' %}</button>
+        <a href="{% url 'list'%}">{% trans 'Cancel' %}</a>
+        </form>
+    </div>
+</div>
+{% endblock content %}
