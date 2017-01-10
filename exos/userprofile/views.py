@@ -39,8 +39,6 @@ class UserProfileUpdateView(SuccessMessage, UpdateView):
 
 
 class UserProfileDeleteView(DeleteView):
-    '''Can change birthday
-    '''
     model = UserProfile
 
     def get_success_url(self):
