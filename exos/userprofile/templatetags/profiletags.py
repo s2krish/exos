@@ -6,7 +6,7 @@ register = template.Library()
 
 @register.simple_tag
 def bizzfuzz(profile):
-    if profile.random_number % 5 == 0 and profile.random_number % 3:
+    if profile.random_number % 5 == 0 and profile.random_number % 3 == 0:
         return 'BizzFuzz'
     elif profile.random_number % 5 == 0:
         return 'Fuzz'
